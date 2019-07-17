@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('posts','PostsController', ['only' => ['create','store','edit','update','destroy']]);
+});
+Route::resource('posts','PostsController',['only' => ['index','show']]);
+Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
